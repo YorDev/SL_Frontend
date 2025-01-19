@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isScrolled, setIsScrolled] = useState(false);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -18,21 +20,33 @@ const Navbar: React.FC = () => {
     // Implement search functionality here
   }
 
+  useEffect(() => {
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 0);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
+
   return (
-    <nav className="bg-white shadow-md">
+    <nav className={`fixed w-full z-10 transition-all ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <a href="/" className="flex-shrink-0">
-              <span className="text-2xl font-bold text-indigo-600">ShopLogo</span>
+              <span className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-2xl font-bold`}>ShopLogo</span>
             </a>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a href="/" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                <a href="/products" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Products</a>
-                <a href="/categories" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Categories</a>
-                <a href="/about" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                <a href="/contact" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                <a href="/" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-sm font-medium`}>Home</a>
+                <a href="/products" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-sm font-medium`}>Products</a>
+                <a href="/categories" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-sm font-medium`}>Categories</a>
+                <a href="/about" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-sm font-medium`}>About</a>
+                <a href="/contact" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} px-3 py-2 rounded-md text-sm font-medium`}>Contact</a>
               </div>
             </div>
           </div>
@@ -52,13 +66,13 @@ const Navbar: React.FC = () => {
                   </svg>
                 </button>
               </form>
-              <button className="ml-3 p-1 rounded-full text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button className={`h-6 w-6 ${!isScrolled ? 'text-white' : 'text-gray-600'} ml-3 rounded-full hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}>
                 <span className="sr-only">View account</span>
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </button>
-              <button className="ml-3 p-1 rounded-full text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button className={`h-6 w-6 ${!isScrolled ? 'text-white' : 'text-gray-600'} ml-3 rounded-full hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}>
                 <span className="sr-only">View shopping cart</span>
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -89,11 +103,11 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/" className="text-gray-600 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
-            <a href="/products" className="text-gray-600 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Products</a>
-            <a href="/categories" className="text-gray-600 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Categories</a>
-            <a href="/about" className="text-gray-600 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
-            <a href="/contact" className="text-gray-600 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            <a href="/" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} block px-3 py-2 rounded-md text-sm font-medium`}>Home</a>
+            <a href="/products" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} block px-3 py-2 rounded-md text-sm font-medium`}>Products</a>
+            <a href="/categories" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} block px-3 py-2 rounded-md text-sm font-medium`}>Categories</a>
+            <a href="/about" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} block px-3 py-2 rounded-md text-sm font-medium`}>About</a>
+            <a href="/contact" className={`${!isScrolled ? 'text-white' : 'text-gray-600 hover:text-indigo-600'} block px-3 py-2 rounded-md text-sm font-medium`}>Contact</a>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
             <div className="flex items-center px-5">
@@ -129,4 +143,3 @@ const Navbar: React.FC = () => {
 }
 
 export default Navbar
-

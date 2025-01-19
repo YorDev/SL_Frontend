@@ -1,15 +1,20 @@
-import './App.css'
-import Home from './pages/Home'
-import Register from './pages/Register'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Register from './pages/Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
-function App() {
 
+const App: React.FC = () => {
   return (
-    <>
-      <Home />
-      <Register />
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/Login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
